@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import './AllBookPage.css';
 
 const AllBookPage = () => {
     const [allbooks, setBooks] = useState([]);
@@ -45,7 +46,10 @@ const AllBookPage = () => {
             <div className="col mb-5" key={book._id}>
               <div className="card h-100">
                 {/* Book image */}
+                <div className="zoom-effect">
                 <img className="card-img-top p-2" src={book.image} alt="oops" />
+                </div>
+                
                 {/* Book details */}
                 <div className="card-body p-4">
                   <div className="text-center">
