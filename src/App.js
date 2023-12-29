@@ -1,14 +1,27 @@
-
+import React from "react";
 import './App.css';
 import NavbarComp from './components/NavbarComp';
+import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import Login from './pages/Login'
+import Register from './pages/Register'
+import PageNotFound from './pages/PageNotFound'
+import Home  from "./pages/Home";
 
 function App() {
   return (
-    <div >
-      <NavbarComp />
-      <h2 className='text-3xl font-bold underline'>Book Store App</h2>
-
-    </div>
+    <BrowserRouter>
+    <NavbarComp />
+    <ToastContainer/>
+    <Routes>
+    <Route path="/" element={<Home />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="*" element={<PageNotFound />} />
+    </Routes>
+    {/* <FooterComp /> */}
+  </BrowserRouter>
   );
 }
 
