@@ -47,7 +47,7 @@ const AllBookPage = () => {
               <div className="card h-100">
                 {/* Book image */}
                 <div className="zoom-effect">
-                <img className="card-img-top p-2" src={book.image} alt="oops" />
+                <img className="card-img-top p-2" src={book.image}draggable="false" alt="oops" />
                 </div>
                 
                 {/* Book details */}
@@ -65,7 +65,7 @@ const AllBookPage = () => {
                 <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
                   <div className="text-center">
                     <Link to={`/book/${book._id}`} className="btn btn-outline-dark mt-auto">
-                      View options
+                      View Book
                     </Link>
                   </div>
                 </div>

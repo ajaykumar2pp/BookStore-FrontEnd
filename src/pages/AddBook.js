@@ -58,7 +58,7 @@ const AddBook = () => {
       console.log(response.data);
       alert("Book Add");
 
-      navigate("/product");
+      navigate("/all-book");
     } catch (error) {
       console.error("Error during API call:", error);
     }
@@ -159,7 +159,7 @@ const AddBook = () => {
                 className="btn btn-primary mb-5"
                 onClick={handleSave}
               >
-                Add Product
+                Add Book
               </button>
             </form>
           </div>
