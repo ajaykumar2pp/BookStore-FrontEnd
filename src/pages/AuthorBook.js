@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {  Link } from "react-router-dom";
 import api from "../api/bookAPI";
 
-const BookPage = () => {
+const AuthorBook = () => {
 
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,7 +14,7 @@ const BookPage = () => {
 
   useEffect(() => {
     fetchBooksByAuthorId ();
-  }, [fetchBooksByAuthorId]);
+  }, []);
 
   const fetchBooksByAuthorId  = async () => {
     try {
@@ -142,4 +142,4 @@ const BookPage = () => {
   )
 }
 
-export default BookPage
+export default AuthorBook

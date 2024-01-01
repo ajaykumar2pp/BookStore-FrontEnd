@@ -1,54 +1,57 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import '../pages/AddBook.css';
 
 const AddBook = () => {
-    const [name, setName] = useState("");
-    const [price, setPrice] = useState("");
-    const [content, setContent] = useState("");
-    const [image, setImage] = useState(null)
-    const [imagePreview, setImagePreview] = useState(null);
-    const [error, setError] = useState(false)
-    const navigate = useNavigate();
+  const [bookTitle, setBookTitle] = useState("");
+  const [authorName, setAuthorName] = useState("");
+  const [price, setPrice] = useState("");
+  const [content, setContent] = useState("");
+  const [image, setImage] = useState(null)
+  const [imagePreview, setImagePreview] = useState(null);
+  const [error, setError] = useState(false)
+  const navigate = useNavigate();
 
-    const handleFileChange = (e) => {
-        const selectedImage = e.target.files[0];
-    
-        // Display image preview
-        if (selectedImage) {
-          setImagePreview(URL.createObjectURL(selectedImage));
-        } else {
-          setImagePreview(null);
-        }
-    
-        // Update state with selected image
-        setImage(selectedImage);
-      };
+  const handleFileChange = (e) => {
+    const selectedImage = e.target.files[0];
 
-      
+    // Display image preview
+    if (selectedImage) {
+      setImagePreview(URL.createObjectURL(selectedImage));
+    } else {
+      setImagePreview(null);
+    }
+
+    // Update state with selected image
+    setImage(selectedImage);
+  };
+
+
   const handleSave = async (e) => {
-    console.log(name, price,  content, image);
+    console.log(bookTitle,authorName, price, content, image);
     e.preventDefault();
-    if (!name || !price ||  !content || !image) {
+    if (!bookTitle ||!authorName || !price || !content || !image) {
       setError(true)
       return false;
     }
     try {
-      const userId = JSON.parse(localStorage.getItem("user")).data.user._id;
-      console.log(userId);
+      const author_id = JSON.parse(localStorage.getItem("user")).data.user._id;
+      console.log(author_id);
 
       setImagePreview(URL.createObjectURL(image));
-      
+
 
       // Use FormData to send multipart/form-data
       const formData = new FormData();
-      formData.append("name", name);
+      formData.append("bookTitle", bookTitle);
+      formData.append("authorName", authorName);
       formData.append("price", price);
       formData.append("content", content);
-      formData.append("userId", userId);
+      formData.append("author_id", author_id);
       formData.append("image", image);
 
-      const  response = await axios.post("http://localhost:8500/books/addBook",
+      const response = await axios.post("http://localhost:8500/books/addBook",
         formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -63,41 +66,60 @@ const AddBook = () => {
       console.error("Error during API call:", error);
     }
     // Reset the form inputs
-    setName("");
+    setBookTitle("");
+    setAuthorName("");
     setPrice("");
     setContent("");
     setImage(null);
     setImagePreview(null);
   };
-    return (
-       <>
-       
-      <h5 className="text-center mt-4 text-body-tertiary">Add Book  </h5>
-      <div className="container">
+
+  
+  return (
+    <>
+      <div className="container-fluid" >
         <div className="row d-flex justify-content-center">
           <div className="col-md-8 ">
+            <h5 className="text-center mt-4 text-body-tertiary">Add Book  </h5>
             {/* form   */}
             <form className="mb-5 border border-primary p-4 m-3 rounded">
-              {/* name  */}
+              {/* Book Title  */}
               <div className="mb-3">
-                <label htmlFor="name" className="form-label">
-                  Book Name
+                <label htmlFor="name" className="form-label fw-bold">
+                  Book Title
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="name"
+                  name="bookTitle"
+                  placeholder="Enter Book Title"
+                  aria-describedby="bookName"
+                  value={bookTitle}
+                  onChange={(e) => setBookTitle(e.target.value)}
+                />
+                {error && !bookTitle && <div className="valid text-danger">Plz valid book title</div>}
+              </div>
+              {/* Author Name */}
+              <div className="mb-3">
+                <label htmlFor="name" className="form-label fw-bold">
+                  Author Name
                 </label>
                 <input
                   type="text"
                   className="form-control"
                   id="name"
                   name="name"
-                  placeholder="Enter Product Name"
-                  aria-describedby="nameUser"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter Author Name"
+                  aria-describedby="authorName"
+                  value={authorName}
+                  onChange={(e) => setAuthorName(e.target.value)}
                 />
-                {error && !name && <div className="valid text-danger">Plz valid name</div>}
+                {error && !authorName && <div className="valid text-danger">Plz valid author name</div>}
               </div>
               {/* Price */}
               <div className="mb-3">
-                <label htmlFor="name" className="form-label">
+                <label htmlFor="name" className="form-label fw-bold">
                   Price
                 </label>
                 <input
@@ -105,21 +127,20 @@ const AddBook = () => {
                   className="form-control"
                   id="price"
                   name="price"
-                  placeholder="Enter Product Price"
-                  aria-describedby="ProductUser"
+                  placeholder="Enter Book Price"
+                  aria-describedby="bookPrice"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                 />
                 {error && !price && <div className="valid text-danger">Plz valid price</div>}
               </div>
-              
+
               {/* content*/}
               <div className="mb-3">
-                <label htmlFor="name" className="form-label">
-                  content
+                <label htmlFor="name" className="form-label fw-bold">
+                  Content
                 </label>
-                <input
-                  type="text"
+                <textarea
                   className="form-control"
                   id="content"
                   name="content"
@@ -127,12 +148,13 @@ const AddBook = () => {
                   aria-describedby="content"
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
+                  style={{height:"100px"}}
                 />
                 {error && !content && <div className="valid text-danger">Plz valid content</div>}
               </div>
               {/* Image uplaod */}
               <div className="mb-3">
-                <label htmlFor="name" className="form-label">
+                <label htmlFor="name" className="form-label fw-bold">
                   Image Upload
                 </label>
                 <input
@@ -143,11 +165,11 @@ const AddBook = () => {
                   aria-describedby="image"
                   onChange={handleFileChange}
                 />
-                
+
                 {error && !image && <div className="valid text-danger">Plz upload image</div>}
               </div>
               <div>
-              {imagePreview && (
+                {imagePreview && (
                   <div className="mb-3">
                     <label className="form-label">Image Preview</label>
                     <img src={imagePreview} alt="Preview" className="img-preview img-fluid" />
@@ -156,7 +178,7 @@ const AddBook = () => {
               </div>
               <button
                 type="submit"
-                className="btn btn-primary mb-5"
+                className="btn btn-primary mb-5 fw-bold"
                 onClick={handleSave}
               >
                 Add Book
@@ -165,8 +187,8 @@ const AddBook = () => {
           </div>
         </div>
       </div>
-       </>
-    )
+    </>
+  )
 }
 
 export default AddBook

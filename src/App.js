@@ -9,11 +9,13 @@ import Register from './pages/Register';
 import PageNotFound from './pages/PageNotFound';
 import PrivateComp from './components/PrivateComp';
 import Home from "./pages/Home";
-import BookPage from "./pages/BookPage";
+import AuthorBook from "./pages/AuthorBook";
 import BookDetail from "./pages/BookDetail";
 import AddBook from "./pages/AddBook";
 import AllBookPage from "./pages/AllBookPage";
 import UpdateBook from "./pages/UpdateBook";
+import CommentComp from "./components/CommentComp";
+import ReviewComp from "./components/ReviewComp";
 
 function App() {
   return (
@@ -22,11 +24,16 @@ function App() {
       <ToastContainer />
       <Routes>
         <Route element={<PrivateComp />}>
-          <Route path="/books" element={<BookPage />} />
+          <Route path="/books" element={<AuthorBook />} />
           <Route path="/all-book" element={<AllBookPage />} />
           <Route path="/books/addBook" element={<AddBook />} />
-          <Route path="/book/:id" element={<BookDetail />} />
           <Route path="/book/update-book/:_id" element={<UpdateBook />} />
+
+          <Route path="/book/:id" element={<BookDetail />}>
+            <Route path="comment" element={<CommentComp />} />
+            <Route path="review" element={<ReviewComp />} />
+          </Route>
+
         </Route>
 
 

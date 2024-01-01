@@ -1,0 +1,24 @@
+.star-container {
+    cursor: pointer;
+}
+
+.star-icon {
+    cursor: pointer;
+    color: grey;
+}
+
+.star-input.hovered+.star-icon,
+.star-icon.selected {
+    color: rgb(112, 202, 96);
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}

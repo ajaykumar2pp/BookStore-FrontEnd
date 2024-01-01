@@ -62,18 +62,7 @@ const NavbarComp = () => {
                 >
                   Add Book
                 </Link>
-                {/* <Link
-                  to="/update-product/:_id"
-                  className="py-2 ps-3 pe-4 fw-semibold text-decoration-none"
-                >
-                  Update Product
-                </Link> */}
-                {/* <Link
-                  to="/profile"
-                  className="py-2 ps-3 pe-4 fw-semibold text-decoration-none"
-                >
-                  Profile
-                </Link> */}
+                
                 <NavDropdown title="Profile" className=" ps-3 fw-semibold pe-4 " id="basic-nav-dropdown">
                   <NavDropdown.Item href="/"  className="py-2 ps-3 pe-4 text-secondary   fw-semibold text-decoration-none">Name :  {auth.data.user.username}</NavDropdown.Item>
                  
@@ -88,23 +77,6 @@ const NavbarComp = () => {
                 >
                   Logout
                 </Link>
-                {/* <Link
-                  to="/"
-                  className="py-2 ps-3 pe-4 text-secondary   fw-semibold text-decoration-none"
-                >
-                  {JSON.parse(auth).username}
-                  {auth.data.user.username}
-
-                </Link>
-                <Link
-                  to="/"
-                  className="py-2 ps-3 pe-4 text-secondary   fw-semibold text-decoration-none"
-                >
-                  {JSON.parse(auth).username}
-
-                  {auth.data.user.email}
-                </Link> */}
-                
                 {" "}
               </>
             ) : (

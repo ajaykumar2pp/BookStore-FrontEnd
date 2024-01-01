@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, Outlet } from "react-router-dom";
 import apple from '../images/online-book.avif'
+
 
 const BookDetail = () => {
   const { id } = useParams();
@@ -28,8 +29,8 @@ const BookDetail = () => {
         setError("Error fetching book data");
       }
     } catch (error) {
-      console.error("Error fetching product data:", error);
-      setError("Error fetching product data");
+      console.error("Error fetching book data:", error);
+      setError("Error fetching book data");
     } finally {
       setLoading(false);
     }
@@ -98,12 +99,18 @@ const BookDetail = () => {
       {/************  Description & Book Details & Reviews  **********/}
       <section>
         <div className="d-flex justify-content-evenly ">
-          <Link className="text-decoration-none fw-bold fs-5 text-secondary">Description</Link>
-          <Link className="text-decoration-none fw-bold fs-5 text-secondary">Book Details</Link>
-          <Link className="text-decoration-none fw-bold fs-5 text-secondary">Reviews</Link>
+          <Link  className="text-decoration-none fw-bold fs-5 text-secondary">Description</Link>
+          <Link to="review" className="text-decoration-none fw-bold fs-5 text-secondary">Book Reviews</Link>
+          <Link to="comment" className="text-decoration-none fw-bold fs-5 text-secondary">Comment</Link>
         </div>
+      </section> 
+
+      <section>
+        <Outlet />
       </section>
-      {/*  Related items section */}
+
+
+      {/****************  Related book items section   *******************/}
       <section className="py-5 bg-light">
         <div className="container-fluid px-4 px-lg-5 mt-5">
           <h2 className="fw-bolder mb-4">Related books</h2>

@@ -1,5 +1,7 @@
 import React from 'react'
 import book from '../images/online-book.avif'
+import {  Link } from "react-router-dom";
+
 const Home = () => {
     return (
         <div>
@@ -14,12 +16,12 @@ const Home = () => {
                                 Welcome to our online book haven, where pages come to life and stories unfold. Immerse yourself in a world of literary wonders, where every genre is a journey waiting to be explored. From gripping tales of adventure to soul-stirring narratives of love and wisdom, our curated collection awaits your discovery.
                                 </p>
                                 <div className="text-center"> 
-                                    <a href="#" className="btn btn-primary">
-                                        Join Free Now
-                                    </a>
-                                    <a href="#" className="btn btn-outline-danger fs-5 text-inherit ms-5 ">
+                                    <Link to="/" className="btn btn-primary">
+                                        Create Your Book
+                                    </Link>
+                                    <Link to="/" className="btn btn-outline-danger fs-5 text-inherit ms-5 ">
                                        Demo Book
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
