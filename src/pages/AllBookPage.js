@@ -61,7 +61,7 @@ const AllBookPage = () => {
                     ${book.price}
                   </div>
                 </div>
-                {/* Product actions */}
+                {/* Book actions */}
                 <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
                   <div className="text-center">
                     <Link to={`/book/${book._id}`} className="btn btn-outline-dark mt-auto">
