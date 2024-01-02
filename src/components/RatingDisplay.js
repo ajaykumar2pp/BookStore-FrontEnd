@@ -1,8 +1,8 @@
 import React from 'react'
-import { FaStar, FaRegStar } from 'react-icons/fa';
+import { FaStar } from 'react-icons/fa';
 
 const RatingDisplay = ({ rating }) => {
-    const filledColor = 'green';
+    const filledColor = '#27ae60';
     const emptyColor = 'grey';
 
     const stars = [];
@@ -10,7 +10,7 @@ const RatingDisplay = ({ rating }) => {
     for (let i = 0; i < 5; i++) {
         stars.push(
             <FaStar
-            size={25}
+            size={20}
                 key={i}
                 style={{ color: i < rating ? filledColor : emptyColor, marginRight: '2px' }}
             />

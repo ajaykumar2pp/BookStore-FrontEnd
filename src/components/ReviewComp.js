@@ -13,7 +13,7 @@ const ReviewComp = ({rating}) => {
 
 
     const { id } = useParams();
-    console.log(id)
+    // console.log(id)
 
     useEffect(() => {
         getBookReview(id);
@@ -40,6 +40,10 @@ const ReviewComp = ({rating}) => {
         }
     };
 
+    if (loading) {
+        return <h6 className='text-center text-bg-secondary py-3'>Loading Comment...</h6>;
+      }
+
     return (
         <div>
 
@@ -58,15 +62,12 @@ const ReviewComp = ({rating}) => {
                                 {Array.isArray(userreview) && userreview.length > 0 ? (
                                     userreview.map((review) => (
                                         <div className="col mb-3 " key={review._id}>
-                                            <div className="">
-                                                <div className=" mb-1">
-                                                    <span> {review.username}</span>
+                                                <div className="d-flex mb-2">
+                                                    <span className="me-4"> {review.username}</span>
                                                     <RatingDisplay rating={review.rating}  />
                                                 </div>
-                                                <p className="text-black"> {review.comments}</p>
+                                                <p className="text-black"> {review.comment}</p>
                                                 <span> {review.date}</span>
-
-                                            </div>
                                              <hr />
                                         </div>
                                     ))

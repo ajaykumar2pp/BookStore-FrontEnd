@@ -176,13 +176,15 @@ const AddBook = () => {
                   </div>
                 )}
               </div>
+              <div className="text-center">
               <button
                 type="submit"
-                className="btn btn-primary mb-5 fw-bold"
+                className="btn btn-primary mb-5 fw-bold text-sm "
                 onClick={handleSave}
               >
                 Add Book
               </button>
+              </div>
             </form>
           </div>
         </div>

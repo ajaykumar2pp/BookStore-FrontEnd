@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React  from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { useFormik } from 'formik';
 import { validationReviewSchema } from '../validations/reviewSchema';
@@ -11,7 +11,7 @@ import RatingInput from "./RatingInput";
 const CommentComp = () => {
 
     const { id } = useParams();
-    // console.log(id)
+
 
     const navigate = useNavigate();
 
@@ -52,12 +52,12 @@ const CommentComp = () => {
     return (
         <>
             <section className="py-3">
-                <div className="container px-4 px-lg-5 my-5 bg-light">
+                <div className="container px-4 px-lg-5 my-5 ">
                     <div className="row gx-4 gx-lg-5 align-items-center">
                         <div className="col-md-12 py-2">
                             <h4 className='text-center'>Book Comment</h4>
                             {/* Form Review   */}
-                            <Form className="mb-5 border border-primary p-4 m-3 rounded" onSubmit={handleSubmit}>
+                            <Form className="mb-5 border border-3 border-danger p-4 m-3 rounded" onSubmit={handleSubmit}>
                                 {/* name  */}
                                 <div className="mb-3">
                                     <Form.Label> Name</Form.Label>

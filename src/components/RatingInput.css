@@ -9,7 +9,7 @@
 
 .star-input.hovered+.star-icon,
 .star-icon.selected {
-    color: rgb(112, 202, 96);
+    color: #27ae60;
 }
 
 .visually-hidden {
