@@ -56,7 +56,7 @@ const UpdateBook = () => {
   const UpdateBook = async (e) => {
     console.log(bookTitle, authorName, price, content, image);
     e.preventDefault();
-  
+
     try {
       // Use FormData to send multipart/form-data
       const formData = new FormData();
@@ -113,7 +113,7 @@ const UpdateBook = () => {
                 value={bookTitle}
                 onChange={(e) => setBookTitle(e.target.value)}
               />
-             
+
             </div>
             {/* Author Name */}
             <div className="mb-3">
@@ -130,7 +130,7 @@ const UpdateBook = () => {
                 value={authorName}
                 onChange={(e) => setAuthorName(e.target.value)}
               />
-             
+
             </div>
             {/* Price */}
             <div className="mb-3">
@@ -147,7 +147,7 @@ const UpdateBook = () => {
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
               />
-              
+
             </div>
 
             {/* content*/}
@@ -165,7 +165,7 @@ const UpdateBook = () => {
                 onChange={(e) => setContent(e.target.value)}
                 style={{ height: "100px" }}
               />
-              
+
             </div>
             {/* Image uplaod */}
             <div className="mb-3">
@@ -182,15 +182,15 @@ const UpdateBook = () => {
                 onChange={handleImageChange}
               />
 
-              
+
             </div>
-            <div lassName="d-flex justify-content-between">
+            <div className="d-flex justify-content-between">
               <div>
                 {/* Previous Image */}
                 {imageUrl && (
                   <div className="mb-3 img-preview-container">
-                    <label className="form-label img-preview-label">Previous Image</label>
-                    <img src={imageUrl} alt="Previous Product Image" className="preview-image mb-2 img-fluid" />
+                    <label className="form-label img-preview-label fw-bolder">Previous Image</label>
+                    <img src={imageUrl} alt="Previous-Product" draggable="false" className="preview-image mb-2 img-fluid" />
                   </div>
                 )}
               </div>
@@ -198,20 +198,22 @@ const UpdateBook = () => {
                 {/* Newly Selected Image Preview */}
                 {imagePreview && (
                   <div className="mb-3 img-preview-container">
-                    <label className="form-label img-preview-label">Upload Image Preview</label>
-                    <img src={imagePreview} alt="Preview" className="preview-image img-fluid" />
+                    <label className="form-label img-preview-label fw-bolder">Upload Image Preview</label>
+                    <img src={imagePreview} alt="Upload-Preview" draggable="false" className="preview-image img-fluid" />
                   </div>
                 )}
               </div>
 
             </div>
-            <button
-              type="submit"
-              className="btn btn-primary mb-5 fw-bold"
-              onClick={UpdateBook}
-            >
-              Update Book
-            </button>
+            <div className="text-center">
+              <button
+                type="submit"
+                className="btn btn-primary mb-5 fw-bold"
+                onClick={UpdateBook}
+              >
+                Update Book
+              </button>
+            </div>
           </form>
         </div>
       </div>

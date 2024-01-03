@@ -17,29 +17,6 @@ const AuthorBook = () => {
   const userData = JSON.parse(localStorage.getItem("user"));
   const author_id = userData?.data?.user?._id;
 
-  const handleSettingClick = (bookId) => {
-    setOpenBookId((prevId) => (prevId === bookId ? null : bookId));
-  };
-
-  const handleDeleteClick = (bookId) => {
-    setDeleteBookId(bookId);
-    setShowDeleteModal(true);
-  };
-
-  const confirmDeleteBook = () => {
-    api.delete(`/books/${deleteBookId}`).then((response) => {
-      console.log("Delete Book", response.data);
-      fetchBooksByAuthorId();
-      setShowDeleteModal(false);
-    }).catch((error) => {
-      console.error("Error deleting book:", error);
-      setShowDeleteModal(false);
-    });
-  };
-
-  useEffect(() => {
-    fetchBooksByAuthorId();
-  }, []);
 
   const fetchBooksByAuthorId = async () => {
     try {
@@ -67,9 +44,35 @@ const AuthorBook = () => {
     }
   };
 
+  const handleSettingClick = (bookId) => {
+    setOpenBookId((prevId) => (prevId === bookId ? null : bookId));
+  };
+
+  const handleDeleteClick = (bookId) => {
+    setDeleteBookId(bookId);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDeleteBook = () => {
+    api.delete(`/books/${deleteBookId}`).then((response) => {
+      console.log("Delete Book", response.data);
+      fetchBooksByAuthorId();
+      setShowDeleteModal(false);
+    }).catch((error) => {
+      console.error("Error deleting book:", error);
+      setShowDeleteModal(false);
+    });
+  };
+
+
+
+  useEffect(() => {
+    fetchBooksByAuthorId();
+  }, []);
+
   return (
     <>
-      <div className="container-fluid">
+      <div className="container">
         {loading ? (
           <h5 className='text-center text-bg-secondary py-3'>Loading Author Book Page...</h5>
         ) : (
@@ -91,7 +94,7 @@ const AuthorBook = () => {
                 />
               </div>
             </div>
-            <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <div className="row gx-4 gx-lg-5 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
               {books && books.map((book) => (
                 <div className="col mb-5" key={book._id}>
                   <div className="card h-100 card-btn">

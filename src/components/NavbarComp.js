@@ -3,12 +3,21 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate,NavLink } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import Icon from "../images/book-logo.png"
+import Icon from "../images/book-logo.png"
 
 const NavbarComp = () => {
+
+  const NavLinkCss = ({ isActive }) => {
+    return {
+      fontSize: isActive ? "18px" : "18px",
+      color: isActive ? "blue" : "black",
+      borderBottom: isActive ? "2px solid blue" : "",
+
+    }
+  }
 
   const auth = JSON.parse(localStorage.getItem("user"));
 
@@ -33,35 +42,45 @@ const NavbarComp = () => {
   return (
   
 <div>
-<Navbar expand="lg" bg="light" data-bs-theme="light">
+<Navbar expand="lg" bg="light" data-bs-theme="light" >
       <Container>
-        <Link to="/" className="text-decoration-none text-danger fw-bold">
+      <NavLink to="/" className="navbar-brand fw-semibold text-danger">
+            <img
+              alt="book-icon"
+              src={Icon}
+              width="30"
+              height="30"
+              className="d-inline-block align-top"
+            />{' '}
+            BookStore 
+          </NavLink>
+        {/* <NavLink to="/" className="text-decoration-none text-danger fs-4 fw-bold me-4 mb-2">
           BookStore
-        </Link>
+        </NavLink> */}
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
+        <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+          <Nav >
             {auth ? (
               <>
                 {" "}
-                <Link
-                  to="/all-book"
+                <NavLink 
+                  to="/all-book"  style={NavLinkCss}
                   className="py-2 ps-3 pe-4 fw-semibold text-decoration-none"
                 >
                   Home
-                </Link>
-                <Link
-                  to="/books"
+                </NavLink>
+                <NavLink
+                  to="author/books" style={NavLinkCss}
                   className="py-2 ps-3 pe-4 fw-semibold text-decoration-none"
                 >
                   Author Book
-                </Link>
-                <Link
-                  to="/books/addBook"
+                </NavLink>
+                <NavLink
+                  to="/books/addBook" style={NavLinkCss}
                   className="py-2 ps-3 fw-semibold pe-4 text-decoration-none"
                 >
                   Add Book
-                </Link>
+                </NavLink>
                 
                 <NavDropdown title="Profile" className=" ps-3 fw-semibold pe-4 " id="basic-nav-dropdown">
                   <NavDropdown.Item href="/"  className="py-2 ps-3 pe-4 text-secondary   fw-semibold text-decoration-none">Name :  {auth.data.user.username}</NavDropdown.Item>
@@ -69,44 +88,32 @@ const NavbarComp = () => {
                   <NavDropdown.Item href="/"  className="py-2 ps-3 pe-4 text-secondary   fw-semibold text-decoration-none">Email : {auth.data.user.email}</NavDropdown.Item>
                  
                 </NavDropdown>
-                <Link
+                <NavLink
                   to="/register"
-
+                  style={NavLinkCss}
                   onClick={logout}
                   className="py-2 ps-3 pe-4 fw-semibold text-decoration-none"
                 >
                   Logout
-                </Link>
+                </NavLink>
                 {" "}
               </>
             ) : (
               <>
-                <Link
-                  to="/register"
+                <NavLink
+                  to="/register" style={NavLinkCss}
                   className="py-2 ps-3 pe-4 fw-semibold text-decoration-none"
                 >
                   Register
-                </Link>
-                <Link
-                  to="/login"
+                </NavLink>
+                <NavLink
+                  to="/login"  style={NavLinkCss}
                   className="py-2 ps-3 pe-4 fw-semibold text-decoration-none"
                 >
                   Login
-                </Link>
+                </NavLink>
               </>
             )}
-
-            {/* {auth?<Link
-              to="/signup" onClick={logout}
-              className="py-2 ps-3 pe-4 fw-semibold text-decoration-none"
-            >
-              Logout
-            </Link>:<Link
-              to="/signup"
-              className="py-2 ps-3 pe-4 fw-semibold text-decoration-none"
-            >
-              Sign Up
-            </Link>} */}
           </Nav>
         </Navbar.Collapse>
       </Container>

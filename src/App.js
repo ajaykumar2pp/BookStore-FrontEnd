@@ -24,7 +24,7 @@ function App() {
       <ToastContainer />
       <Routes>
         <Route element={<PrivateComp />}>
-          <Route path="/books" element={<AuthorBook />} />
+          <Route path="/author/books" element={<AuthorBook />} />
           <Route path="/all-book" element={<AllBookPage />} />
           <Route path="/books/addBook" element={<AddBook />} />
           <Route path="/book/update-book/:_id" element={<UpdateBook />} />
