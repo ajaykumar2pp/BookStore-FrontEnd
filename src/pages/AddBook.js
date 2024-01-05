@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api/bookAPI";
 import '../pages/AddBook.css';
 
 const AddBook = () => {
@@ -29,15 +29,19 @@ const AddBook = () => {
 
 
   const handleSave = async (e) => {
-    console.log(bookTitle,authorName, price, content, image);
+    console.log(bookTitle, authorName, price, content, image);
     e.preventDefault();
-    if (!bookTitle ||!authorName || !price || !content || !image) {
+    if (!bookTitle || !authorName || !price || !content || !image) {
       setError(true)
       return false;
     }
     try {
-      const author_id = JSON.parse(localStorage.getItem("user")).data.user._id;
-      console.log(author_id);
+      // Fetch token from localStorage
+      const token = JSON.parse(localStorage.getItem("user")).token
+      // console.log(token)
+
+      const author_id = JSON.parse(localStorage.getItem("user"))._id;
+      // console.log(author_id);
 
       setImagePreview(URL.createObjectURL(image));
 
@@ -51,10 +55,11 @@ const AddBook = () => {
       formData.append("author_id", author_id);
       formData.append("image", image);
 
-      const response = await axios.post("http://localhost:8500/books/addBook",
+      const response = await api.post("/books/addBook",
         formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         }
       });
 
@@ -74,7 +79,7 @@ const AddBook = () => {
     setImagePreview(null);
   };
 
-  
+
   return (
     <>
       <div className="container-fluid" >
@@ -148,7 +153,7 @@ const AddBook = () => {
                   aria-describedby="content"
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  style={{height:"100px"}}
+                  style={{ height: "100px" }}
                 />
                 {error && !content && <div className="valid text-danger">Plz valid content</div>}
               </div>
@@ -177,13 +182,13 @@ const AddBook = () => {
                 )}
               </div>
               <div className="text-center">
-              <button
-                type="submit"
-                className="btn btn-primary mb-5 fw-bold text-sm "
-                onClick={handleSave}
-              >
-                Add Book
-              </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary mb-5 fw-bold text-sm "
+                  onClick={handleSave}
+                >
+                  Add Book
+                </button>
               </div>
             </form>
           </div>

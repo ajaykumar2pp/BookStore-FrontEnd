@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import { validationRegisterSchema } from '../validations/registerSchema';
 import Form from 'react-bootstrap/Form';
-import axios from "axios";
+import api from "../api/bookAPI";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../pages/Register.css';
@@ -22,7 +22,7 @@ const Register = () => {
       console.log(values);
 
       try {
-        const response = await axios.post("http://localhost:8500/register", {
+        const response = await api.post("/register", {
           username: values.username,
           email: values.email,
           password: values.password,

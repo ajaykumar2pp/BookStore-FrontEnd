@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import api from '../api/bookAPI';
 import RatingDisplay from "./RatingDisplay";
 
 
-const ReviewComp = ({rating}) => {
+const ReviewComp = ({ rating }) => {
 
 
     const [userreview, setUserReview] = useState([]);
@@ -23,7 +23,16 @@ const ReviewComp = ({rating}) => {
 
     const getBookReview = async (bookId) => {
         try {
-            const response = await api.get(`/books/get-reviews/${bookId}`);
+            // Fetch token from localStorage
+            const token = JSON.parse(localStorage.getItem("user")).token
+
+            const response = await api.get(`/books/get-reviews/${bookId}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
             const data = response.data;
             console.log(data)
 
@@ -42,7 +51,7 @@ const ReviewComp = ({rating}) => {
 
     if (loading) {
         return <h6 className='text-center text-bg-secondary py-3'>Loading Comment...</h6>;
-      }
+    }
 
     return (
         <div>
@@ -62,13 +71,13 @@ const ReviewComp = ({rating}) => {
                                 {Array.isArray(userreview) && userreview.length > 0 ? (
                                     userreview.map((review) => (
                                         <div className="col mb-3 " key={review._id}>
-                                                <div className="d-flex mb-2">
-                                                    <span className="me-4"> {review.username}</span>
-                                                    <RatingDisplay rating={review.rating}  />
-                                                </div>
-                                                <p className="text-black"> {review.comment}</p>
-                                                <span> {review.date}</span>
-                                             <hr />
+                                            <div className="d-flex mb-2">
+                                                <span className="me-4"> {review.username}</span>
+                                                <RatingDisplay rating={review.rating} />
+                                            </div>
+                                            <p className="text-black"> {review.comment}</p>
+                                            <span> {review.date}</span>
+                                            <hr />
                                         </div>
                                     ))
                                 ) : (

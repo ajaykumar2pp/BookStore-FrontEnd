@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import { validationLoginSchema } from '../validations/loginSchema';
-import axios from "axios";
+import api from "../api/bookAPI";
 import Form from 'react-bootstrap/Form';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -31,14 +31,15 @@ const Login = () => {
       console.log(values);
 
       try {
-        const response = await axios.post("http://localhost:8500/login", {
+        const response = await api.post("/login", {
           email: values.email,
           password: values.password,
         });
 
-        console.log(response.data);
+        // console.log(response.data);
+        // console.log(response.data.data.user);
         toast.success('User Login Successfully!');
-        localStorage.setItem("user", JSON.stringify(response.data));
+        localStorage.setItem("user", JSON.stringify(response.data.data.user));
         navigate("/all-book");
       } catch (error) {
         if (error.response) {

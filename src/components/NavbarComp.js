@@ -20,15 +20,16 @@ const NavbarComp = () => {
   }
 
   const auth = JSON.parse(localStorage.getItem("user"));
+  // console.log(auth)
 
-  if (auth && auth.data && auth.data.user) {
-    const username = auth.data.user.username;
-    const email = auth.data.user.email;
+  if (auth ) {
+    const username = auth.username;
+    const email = auth.email;
 
     console.log(`Username: ${username}`);
     console.log(`Email: ${email}`);
   } else {
-    // console.log("User data not found in localStorage");
+    console.log("User data not found in localStorage");
   }
 
     // console.log(auth)
@@ -83,9 +84,9 @@ const NavbarComp = () => {
                 </NavLink>
                 
                 <NavDropdown title="Profile" className=" ps-3 fw-semibold pe-4 " id="basic-nav-dropdown">
-                  <NavDropdown.Item href="/"  className="py-2 ps-3 pe-4 text-secondary   fw-semibold text-decoration-none">Name :  {auth.data.user.username}</NavDropdown.Item>
+                  <NavDropdown.Item href="/"  className="py-2 ps-3 pe-4 text-secondary   fw-semibold text-decoration-none">Name :  {auth.username}</NavDropdown.Item>
                  
-                  <NavDropdown.Item href="/"  className="py-2 ps-3 pe-4 text-secondary   fw-semibold text-decoration-none">Email : {auth.data.user.email}</NavDropdown.Item>
+                  <NavDropdown.Item href="/"  className="py-2 ps-3 pe-4 text-secondary   fw-semibold text-decoration-none">Email : {auth.email}</NavDropdown.Item>
                  
                 </NavDropdown>
                 <NavLink

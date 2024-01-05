@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import api from "../api/bookAPI";
 import './AuthorBook.css';
 import Modal from 'react-bootstrap/Modal';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { FaTrashCan } from "react-icons/fa6";
 import { BiSolidEdit } from "react-icons/bi";
 import { FaArrowDownWideShort } from "react-icons/fa6";
@@ -13,32 +15,47 @@ const AuthorBook = () => {
   const [openBookId, setOpenBookId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteBookId, setDeleteBookId] = useState(null);
+  const [error, setError] = useState(null);
+  const [searcherror, setSearcherror] = useState(null);
 
   const userData = JSON.parse(localStorage.getItem("user"));
-  const author_id = userData?.data?.user?._id;
+  const author_id = userData?._id;
 
 
   const fetchBooksByAuthorId = async () => {
     try {
+      // Fetch token from localStorage
+      const token = JSON.parse(localStorage.getItem("user")).token
+
       if (!author_id) {
         console.log('Author ID not found in localStorage');
         return;
       } else {
         console.log('Author ID found in localStorage');
       }
-      const response = await api.get(`/books/author/${author_id}`);
+      const response = await api.get(`/books/author/${author_id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
       const data = response.data;
       console.log(data);
 
-      if (data.data.books.length > 0) {
+      if (data.data && data.data.books && data.data.books.length > 0) {
         setBooks(data.data.books);
         console.log("API response data:", data.data.books);
+        setError(null);
       } else {
         console.log('No books found for the specified author_id');
+        setBooks([])
+        setError('No books . Please Add Book');
       }
     } catch (error) {
       console.error('Error fetching books by author_id:', error);
       setBooks([]);
+      setError('Error fetching books by author_id');
     } finally {
       setLoading(false);
     }
@@ -53,16 +70,33 @@ const AuthorBook = () => {
     setShowDeleteModal(true);
   };
 
-  const confirmDeleteBook = () => {
-    api.delete(`/books/${deleteBookId}`).then((response) => {
+  const confirmDeleteBook = async () => {
+    try {
+      const token = JSON.parse(localStorage.getItem("user")).token;
+
+      const response = await api.delete(`/books/${deleteBookId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       console.log("Delete Book", response.data);
-      fetchBooksByAuthorId();
-      setShowDeleteModal(false);
-    }).catch((error) => {
+
+      if (response.status === 204) {
+        toast.success('Delete Book Successfully!');
+        fetchBooksByAuthorId();
+      } else {
+        toast.error('Failed to delete the book. Please try again.');
+      }
+    } catch (error) {
       console.error("Error deleting book:", error);
+      toast.error(`Error deleting book: ${error.message}`);
+    } finally {
       setShowDeleteModal(false);
-    });
+    }
   };
+
 
 
 
@@ -70,13 +104,56 @@ const AuthorBook = () => {
     fetchBooksByAuthorId();
   }, []);
 
+
+  const searchHandle = async (e) => {
+    console.log(e.target.value);
+    const key = e.target.value.trim();
+    console.log(key)
+
+    if (key) {
+      try {
+        // Fetch token from localStorage
+        const token = JSON.parse(localStorage.getItem("user")).token
+
+        const result = await api.get(`/search/${key}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = result.data;
+        console.log(data);
+
+        if (data && data.length > 1) {
+          setBooks(data);
+          setSearcherror(null);
+          console.log("Search data:", data);
+        } else {
+          console.log("No books found for the search key:", key);
+          setBooks([]);
+          setSearcherror("No books found for the search ");
+        }
+      } catch (error) {
+        // console.error('Error fetching search results:', error.message);
+        setBooks([]);
+        setSearcherror("No books found for the search key");
+      }
+    } else {
+      setBooks([]);
+      setSearcherror(null);
+      fetchBooksByAuthorId();
+    }
+  };
+
+
   return (
     <>
-      <div className="container">
+      <div className="container mb-sm-5">
         {loading ? (
           <h5 className='text-center text-bg-secondary py-3'>Loading Author Book Page...</h5>
         ) : (
           <div>
+
             {/*   Search Book  */}
             <div className="row justify-content-center mt-3 mb-3">
               <div className="col-sm-8">
@@ -87,14 +164,25 @@ const AuthorBook = () => {
                 <input
                   type="text"
                   className="form-control"
-                  // onChange={searchHandle}
+                  onChange={searchHandle}
                   id="inputSearch"
                   placeholder="🔍 Search Your Book"
                   autoFocus
                 />
               </div>
             </div>
-            <div className="row gx-4 gx-lg-5 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            {/* Show Error Book Not Found */}
+            <div className="row mt-3 mb-3 justify-content-center">
+              <div className="col-md-8">
+                <div>
+                  {error && <h5 className='text-center text-bg-danger py-3 mt-5'>{error}</h5>}
+                  {searcherror && !error && <h5 className='text-center text-bg-danger py-3 mt-5'>{searcherror}</h5>}
+                </div>
+              </div>
+            </div>
+
+            {/* book data show */}
+            <div className="row gx-4 gx-lg-5 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 mb-5 justify-content-center">
               {books && books.map((book) => (
                 <div className="col mb-5" key={book._id}>
                   <div className="card h-100 card-btn">
@@ -145,6 +233,15 @@ const AuthorBook = () => {
 
       <section>
         <div className="container-fluid">
+          {/* No book found  */}
+          {/* <div className="row mt-3 mb-3 justify-content-center">
+            <div className="col-md-8">
+              <div>
+                <h5 className='text-center text-bg-danger py-3 mt-5'>{error}</h5>
+              </div>
+            </div>
+          </div> */}
+
           <div className="row">
             <div className="col-md-12">
               <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>

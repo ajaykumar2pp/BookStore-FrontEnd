@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../api/bookAPI";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 import "./UpdateBook.css";
 
 
@@ -15,7 +17,7 @@ const UpdateBook = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const navigate = useNavigate();
 
-  const userName = JSON.parse(localStorage.getItem("user")).data.user.username;
+  const userName = JSON.parse(localStorage.getItem("user")).username;
 
   const params = useParams();
 
@@ -38,8 +40,17 @@ const UpdateBook = () => {
 
   const getBookDetails = async () => {
     try {
-      const response = await fetch(`http://localhost:8500/books/${params._id}`);
-      const data = await response.json();
+      // Fetch token from localStorage
+      const token = JSON.parse(localStorage.getItem("user")).token
+
+      const response = await api.get(`/books/${params._id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      const data = response.data;
       console.log("Single Book data:", data);
       setBookTitle(data.bookTitle);
       setPrice(data.price);
@@ -47,6 +58,7 @@ const UpdateBook = () => {
       setAuthorName(data.authorName);
       setImageUrl(data.image);
     } catch (error) {
+      toast.error(`Error logging in: ${error.message}`);
       console.error("Error fetching product data:", error);
 
     }
@@ -66,19 +78,25 @@ const UpdateBook = () => {
       formData.append("content", content);
       formData.append("image", image);
 
+      // Fetch token from localStorage
+      const token = JSON.parse(localStorage.getItem("user")).token
+
       const updateBook = await api.put(`/books/${params._id}`,
         formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         }
       });
 
       console.log(updateBook.data);
-      alert("Update Book");
+      // alert("Update Book");
+      toast.success('Update Successfully!');
 
       navigate("/all-book");
     } catch (error) {
       console.error("Error during API call:", error);
+      toast.error(`Error logging in: ${error.message}`);
     }
     // Reset the form inputs
     setBookTitle("");

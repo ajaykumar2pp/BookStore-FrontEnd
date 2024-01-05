@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, Outlet } from "react-router-dom";
 import apple from '../images/online-book.avif'
+import api from "../api/bookAPI";
 
 
 const BookDetail = () => {
@@ -19,11 +20,19 @@ const BookDetail = () => {
 
   const getBook = async (bookId) => {
     try {
-      const response = await fetch(`http://localhost:8500/books/${bookId}`);
-      const data = await response.json();
-      // console.log(data)
+      // Fetch token from localStorage
+      const token = JSON.parse(localStorage.getItem("user")).token
+      const response = await api.get(`books/${bookId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      const data = response.data;
+      console.log(data)
 
-      if (response.ok) {
+      if (response.status === 200) {
         setBook(data);
       } else {
         setError("Error fetching book data");
@@ -41,7 +50,7 @@ const BookDetail = () => {
   }
 
   if (error) {
-    return <p>Error: {error}</p>;
+    return <h5 className='text-center text-bg-secondary py-3'>Error: {error}</h5>;
   }
 
   const handleAddToCart = () => {
@@ -75,7 +84,7 @@ const BookDetail = () => {
                     className="form-control text-center border-white no-hover-effect text-black"
                     type="text"
                     value={2}
-                    style={{ width: '20px', outline: 'none', padding: '5px'}}
+                    style={{ width: '20px', outline: 'none', padding: '5px' }}
                     readOnly
                   />
                   <button className="btn  btn-sm px-3 px-sm-5" >+</button>
@@ -99,11 +108,11 @@ const BookDetail = () => {
       {/************  Description & Book Details & Reviews  **********/}
       <section>
         <div className="d-flex justify-content-evenly ">
-          <Link  className="text-decoration-none fw-bold fs-5 text-secondary">Description</Link>
+          <Link className="text-decoration-none fw-bold fs-5 text-secondary">Description</Link>
           <Link to="review" className="text-decoration-none fw-bold fs-5 text-secondary">Book Reviews</Link>
           <Link to="comment" className="text-decoration-none fw-bold fs-5 text-secondary">Comment</Link>
         </div>
-      </section> 
+      </section>
 
       <section>
         <Outlet />

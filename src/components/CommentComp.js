@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { useFormik } from 'formik';
 import { validationReviewSchema } from '../validations/reviewSchema';
@@ -28,12 +28,20 @@ const CommentComp = () => {
             console.log(values);
 
             try {
+                // Fetch token from localStorage
+                const token = JSON.parse(localStorage.getItem("user")).token
+
                 const response = await api.post("/books/review", {
                     username: values.username,
                     email: values.email,
                     rating: values.rating,
                     comment: values.comment,
-                    bookId:values.bookId
+                    bookId: values.bookId
+                },{
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
                 });
 
                 console.log(response.data);
