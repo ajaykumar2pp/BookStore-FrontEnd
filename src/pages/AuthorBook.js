@@ -5,7 +5,7 @@ import './AuthorBook.css';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FaTrashCan } from "react-icons/fa6";
+import { FaTrashCan,FaMessage  } from "react-icons/fa6";
 import { BiSolidEdit } from "react-icons/bi";
 import { FaArrowDownWideShort } from "react-icons/fa6";
 
@@ -205,15 +205,20 @@ const AuthorBook = () => {
                         </button>
 
                         {openBookId === book._id && (
-                          <div className="options-list position-absolute end-0 mt-4 open-list">
-                            <ul className="list-group">
+                          <div className="options-list mt-4 position-absolute"> 
+                            <ul className="list-group ">
                               <Link to={"/book/update-book/" + book._id}
-                                className="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                className="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-body-secondary">
                                 Update
                                 <span className="ms-2"><BiSolidEdit /></span>
                               </Link>
+                              <Link to={"/author/book-comment/" + book._id}
+                                className="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-body-secondary">
+                                Comments
+                                <span className="ms-2"><FaMessage /></span>
+                              </Link>
                               <button onClick={() => handleDeleteClick(book._id)}
-                                className="list-group-item list-group-item-action  d-flex justify-content-between align-items-center">
+                                className="list-group-item list-group-item-action  d-flex justify-content-between align-items-center bg-body-secondary">
                                 Delete
                                 <span className="ms-2"><FaTrashCan /></span>
                               </button>
@@ -233,15 +238,6 @@ const AuthorBook = () => {
 
       <section>
         <div className="container-fluid">
-          {/* No book found  */}
-          {/* <div className="row mt-3 mb-3 justify-content-center">
-            <div className="col-md-8">
-              <div>
-                <h5 className='text-center text-bg-danger py-3 mt-5'>{error}</h5>
-              </div>
-            </div>
-          </div> */}
-
           <div className="row">
             <div className="col-md-12">
               <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>

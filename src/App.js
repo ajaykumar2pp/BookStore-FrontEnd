@@ -16,6 +16,7 @@ import AllBookPage from "./pages/AllBookPage";
 import UpdateBook from "./pages/UpdateBook";
 import CommentComp from "./components/CommentComp";
 import ReviewComp from "./components/ReviewComp";
+import AllComment from "./pages/AllComment";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/all-book" element={<AllBookPage />} />
           <Route path="/books/addBook" element={<AddBook />} />
           <Route path="/book/update-book/:_id" element={<UpdateBook />} />
+          <Route path="/author/book-comment/:id" element={<AllComment />} />
 
           <Route path="/book/:id" element={<BookDetail />}>
             <Route path="comment" element={<CommentComp />} />
