@@ -53,7 +53,7 @@ const AllBookPage = () => {
             </div>
           </div>
           <div className="row  gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            {allbooks && allbooks.map((book) => (
+            {Array.isArray(allbooks)  && allbooks.map((book) => (
               <div className="col mb-5" key={book._id}>
                 <div className="card h-100">
                   {/* Book image */}

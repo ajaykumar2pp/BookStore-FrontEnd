@@ -17,6 +17,8 @@ import UpdateBook from "./pages/UpdateBook";
 import CommentComp from "./components/CommentComp";
 import ReviewComp from "./components/ReviewComp";
 import AllComment from "./pages/AllComment";
+import GetAuthor from "./pages/AdminPages/GetAuthor";
+import UpdateAuthor from "./pages/AdminPages/UpdateAuthor";
 
 function App() {
   return (
@@ -35,6 +37,9 @@ function App() {
             <Route path="comment" element={<CommentComp />} />
             <Route path="review" element={<ReviewComp />} />
           </Route>
+
+          <Route path="/admin/users" element={<GetAuthor />} />
+          <Route path="/admin/user/:id/edit" element={<UpdateAuthor />} />
 
         </Route>
 
